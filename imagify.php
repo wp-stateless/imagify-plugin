@@ -77,6 +77,7 @@ function _imagify_init() {
 	require( IMAGIFY_3RD_PARTY_PATH . '3rd-party.php' );
 
 	if ( is_admin() ) {
+		require( IMAGIFY_FUNCTIONS_PATH . 'maintenance.php' );
 		require( IMAGIFY_ADMIN_PATH . 'upgrader.php' );
 		require( IMAGIFY_ADMIN_PATH . 'heartbeat.php' );
 		require( IMAGIFY_ADMIN_PATH . 'options.php' );

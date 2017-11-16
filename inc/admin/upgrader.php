@@ -140,4 +140,10 @@ function _imagify_new_upgrade( $imagify_version, $current_version ) {
 		// Delete all transients used for async optimization.
 		$wpdb->query( 'DELETE from ' . $wpdb->options . ' WHERE option_name LIKE "_transient_imagify-async-in-progress-%"' );
 	}
+
+	// 1.7
+	if ( version_compare( $current_version, '1.7' ) < 0 ) {
+		// Delete duplicate status.
+		imagify_delete_duplicate_status();
+	}
 }
