@@ -10,9 +10,9 @@ defined( 'ABSPATH' ) || die( 'Cheatin\' uh?' );
  */
 function imagify_get_mime_types() {
 	return array(
-		'image/jpeg',
-		'image/png',
-		'image/gif',
+		'jpg|jpeg|jpe' => 'image/jpeg',
+		'png'          => 'image/png',
+		'gif'          => 'image/gif',
 	);
 }
 
@@ -42,11 +42,7 @@ function imagify_get_mime_type_from_file( $file_path ) {
 		}
 	}
 
-	$image_type = wp_check_filetype( $file_path, array(
-		'jpg|jpeg|jpe' => 'image/jpeg',
-		'png'          => 'image/png',
-		'gif'          => 'image/gif',
-	) );
+	$image_type = wp_check_filetype( $file_path, imagify_get_mime_types() );
 
 	return $image_type['type'];
 }
@@ -402,4 +398,25 @@ function get_imagify_upload_baseurl() {
 	$upload_baseurl = trailingslashit( $uploads['baseurl'] );
 
 	return $upload_baseurl;
+}
+
+/**
+ * Get the maximal number of unoptimized attachments to fetch.
+ *
+ * @since  1.6.14
+ * @author Grégory Viguier
+ *
+ * @return int
+ */
+function imagify_get_unoptimized_attachment_limit() {
+	/**
+	 * Filter the unoptimized attachments limit query.
+	 *
+	 * @since 1.4.4
+	 *
+	 * @param int $limit The limit (-1 for unlimited).
+	 */
+	$limit = (int) apply_filters( 'imagify_unoptimized_attachment_limit', 10000 );
+
+	return -1 === $limit ? PHP_INT_MAX : abs( $limit );
 }
